@@ -11,7 +11,7 @@ namespace Topphp\TopphpMeterApi\TqMeter;
 
 use Topphp\TopphpClient\guzzle\HttpHelper;
 
-class Gateway
+abstract class Gateway
 {
     private $authCode;
     private $nonce;
@@ -158,7 +158,14 @@ class Gateway
         return md5(uniqid((string)mt_rand(), true));
     }
 
-    public function request($url, $requestContent, $version = 'v2')
+    /**
+     * v2 同步请求
+     * @param $url
+     * @param $requestContent
+     * @return mixed
+     * @author sleep
+     */
+    public function request($url, $requestContent)
     {
         $data         = [
             'auth_code'       => $this->getAuthCode(),
@@ -167,15 +174,18 @@ class Gateway
         ];
         $sign         = $this->getSign($data);
         $data['sign'] = $sign;
-        if ($version === 'v2') {
-            $url = $this->getApi2() . $url;
-        } else {
-            $url = $this->getApi1() . $url;
-        }
+        $url          = $this->getApi2() . $url;
         return HttpHelper::post($url, $data, 'json', ['Content-Type' => 'application/json']);
     }
 
-    public function requestAsync($url, $requestContent, $version = 'v2')
+    /**
+     * v2 异步请求
+     * @param $url
+     * @param $requestContent
+     * @return mixed
+     * @author sleep
+     */
+    public function requestAsync($url, $requestContent)
     {
         $data         = [
             'auth_code'       => $this->getAuthCode(),
@@ -185,11 +195,7 @@ class Gateway
         ];
         $sign         = $this->getSign($data);
         $data['sign'] = $sign;
-        if ($version === 'v2') {
-            $url = $this->getApi2() . $url;
-        } else {
-            $url = $this->getApi1() . $url;
-        }
+        $url          = $this->getApi2() . $url;
         return HttpHelper::post($url, $data, 'json', ['Content-Type' => 'application/json']);
     }
 }

@@ -36,7 +36,7 @@ class EleMeterClient extends Gateway
     {
         return $this
             ->setNotifyUrl($notifyUrl)
-            ->requestAsync('/Api_v2/ele_read', $request, 'v2');
+            ->requestAsync('/Api_v2/ele_read', $request);
     }
 
     /**
@@ -62,7 +62,7 @@ class EleMeterClient extends Gateway
     {
         return $this
             ->setNotifyUrl($notifyUrl)
-            ->requestAsync('/Api_v2/ele_write', $request, 'v2');
+            ->requestAsync('/Api_v2/ele_write', $request);
     }
 
     /**
@@ -82,7 +82,7 @@ class EleMeterClient extends Gateway
     {
         return $this
             ->setNotifyUrl($notifyUrl)
-            ->requestAsync('/Api_v2/ele_control', $request, 'v2');
+            ->requestAsync('/Api_v2/ele_control', $request);
     }
 
     /**
@@ -100,7 +100,7 @@ class EleMeterClient extends Gateway
     {
         return $this
             ->setNotifyUrl($notifyUrl)
-            ->requestAsync('/Api_v2/ele_security/reset', $request, 'v2');
+            ->requestAsync('/Api_v2/ele_security/reset', $request);
     }
 
     /**
@@ -118,7 +118,7 @@ class EleMeterClient extends Gateway
     {
         return $this
             ->setNotifyUrl($notifyUrl)
-            ->requestAsync('/Api_v2/ele_security/open_acount', $request, 'v2');
+            ->requestAsync('/Api_v2/ele_security/open_acount', $request);
     }
 
     /**
@@ -136,6 +136,6 @@ class EleMeterClient extends Gateway
     {
         return $this
             ->setNotifyUrl($notifyUrl)
-            ->requestAsync('/Api_v2/ele_security/recharge', $request, 'v2');
+            ->requestAsync('/Api_v2/ele_security/recharge', $request);
     }
 }

@@ -27,7 +27,7 @@ class WaterMeterClient extends Gateway
      */
     public function waterRead(array $request)
     {
-        return $this->requestAsync('/Api_v2/water_read', $request, 'v2');
+        return $this->requestAsync('/Api_v2/water_read', $request);
     }
 
     /**
@@ -45,7 +45,7 @@ class WaterMeterClient extends Gateway
      */
     public function waterControl(array $request)
     {
-        return $this->requestAsync('/Api_v2/water_control', $request, 'v2');
+        return $this->requestAsync('/Api_v2/water_control', $request);
     }
 
     /**
@@ -58,7 +58,7 @@ class WaterMeterClient extends Gateway
      */
     public function waterSecurityReset(array $request)
     {
-        return $this->requestAsync('/Api_v2/water_security/reset', $request, 'v2');
+        return $this->requestAsync('/Api_v2/water_security/reset', $request);
     }
 
     /**
@@ -73,7 +73,7 @@ class WaterMeterClient extends Gateway
      */
     public function waterSecurityRecharge(array $request)
     {
-        return $this->requestAsync('/Api_v2/water_security/recharge', $request, 'v2');
+        return $this->requestAsync('/Api_v2/water_security/recharge', $request);
     }
 
     /**
@@ -88,6 +88,6 @@ class WaterMeterClient extends Gateway
      */
     public function waterWritePrice(array $request)
     {
-        return $this->requestAsync('/Api_v2/water_write/price', $request, 'v2');
+        return $this->requestAsync('/Api_v2/water_write/price', $request);
     }
 }
