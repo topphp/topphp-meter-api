@@ -9,7 +9,23 @@ declare(strict_types=1);
 
 namespace Topphp\TopphpMeterApi\TqMeter\AsyncApi;
 
-class Notify
-{
+use Closure;
+use Topphp\TopphpMeterApi\TqMeter\Gateway;
 
+class Notify extends Gateway
+{
+    public function send($request, Closure $callBack)
+    {
+        $sign            = $request["sign"];
+        $timestamp       = $request["timestamp"];
+        $responseContent = $request["response_content"];
+        $check           = $this->checkSign($responseContent, $timestamp, $sign);
+        if (!$check) {
+//            echo "sign check failed";
+            $callBack(false);
+        } else {
+//            echo 'SUCCESS';
+            $callBack($responseContent);
+        }
+    }
 }

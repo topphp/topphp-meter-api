@@ -153,7 +153,7 @@ class MeterClient extends Gateway
      */
     public function collectorDelete(array $request)
     {
-        return $this->request('/Api_v2/collector/add', $request);
+        return $this->request('/Api_v2/collector/delete', $request);
     }
 
     /**

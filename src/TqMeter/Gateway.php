@@ -13,11 +13,10 @@ use Topphp\TopphpClient\guzzle\HttpHelper;
 
 abstract class Gateway
 {
-    private $authCode;
-    private $nonce;
-    private $notifyUrl;
+    private $authCode  = '';
+    private $nonce     = '';
+    private $notifyUrl = '';
     // 随机字符串 后台获取
-    private $token;
     private $api1 = 'http://api1.tqdianbiao.com';
     private $api2 = 'http://api2.tqdianbiao.com';
 
@@ -78,24 +77,6 @@ abstract class Gateway
     /**
      * @return string
      */
-    public function getToken(): string
-    {
-        return $this->token;
-    }
-
-    /**
-     * @param string $token
-     * @return Gateway
-     */
-    public function setToken(string $token): self
-    {
-        $this->token = $token;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getApi1(): string
     {
         return $this->api1;
@@ -144,11 +125,11 @@ abstract class Gateway
         return md5($tmp);
     }
 
-    public function checkSign($responseContent, $sign)
+    public function checkSign($responseContent, $timestamp, $sign)
     {
         // 随机字符串 后台获取
-        $token  = $this->getToken();
-        $buf    = $responseContent . $token;
+        $nonce  = $this->getNonce();
+        $buf    = $responseContent . $timestamp . $nonce;
         $encode = md5($buf);
         return $encode == $sign;
     }

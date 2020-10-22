@@ -28,14 +28,13 @@ class EleMeterClient extends Gateway
      * 30:A相电压
      * 33:瞬时有功功率
      * 34:瞬时无功功率
-     * @param string $notifyUrl 系统处理完查询请求后，通过这个回调地址，把数据推送给请求方
      * @return array
      * @author sleep
      */
-    public function eleRead(array $request, string $notifyUrl)
+    public function eleRead(array $request)
     {
         return $this
-            ->setNotifyUrl($notifyUrl)
+            ->setNotifyUrl($this->getNotifyUrl())
             ->requestAsync('/Api_v2/ele_read', $request);
     }
 
@@ -54,14 +53,13 @@ class EleMeterClient extends Gateway
      * 24:设置一级报警金额
      * 25:设置二级报警金额
      * params: 设置的参数值map，操作需要一个值，则设置key为p1，需要两个值得操作，key为p1，p2，以此类推
-     * @param string $notifyUrl
      * @return array
      * @author sleep
      */
-    public function eleWrite(array $request, string $notifyUrl)
+    public function eleWrite(array $request)
     {
         return $this
-            ->setNotifyUrl($notifyUrl)
+            ->setNotifyUrl($this->getNotifyUrl())
             ->requestAsync('/Api_v2/ele_write', $request);
     }
 
@@ -74,14 +72,13 @@ class EleMeterClient extends Gateway
      * 电表控制类型:(type)
      * 10:拉闸
      * 11:合闸
-     * @param string $notifyUrl
      * @return array
      * @author sleep
      */
-    public function eleControl(array $request, string $notifyUrl)
+    public function eleControl(array $request)
     {
         return $this
-            ->setNotifyUrl($notifyUrl)
+            ->setNotifyUrl($this->getNotifyUrl())
             ->requestAsync('/Api_v2/ele_control', $request);
     }
 
@@ -92,14 +89,13 @@ class EleMeterClient extends Gateway
      * "must_online": true, "retry_times": 1, "cid": "19020618114","address": "000066660942",
      * "params": {"account_id": "123456"}}]
      * params: 清零操作所需要的数据
-     * @param string $notifyUrl
      * @return array
      * @author sleep
      */
-    public function eleSecurityRest(array $request, string $notifyUrl)
+    public function eleSecurityRest(array $request)
     {
         return $this
-            ->setNotifyUrl($notifyUrl)
+            ->setNotifyUrl($this->getNotifyUrl())
             ->requestAsync('/Api_v2/ele_security/reset', $request);
     }
 
@@ -110,14 +106,13 @@ class EleMeterClient extends Gateway
      * "retry_times": 1, "cid": "19020618114", "address": "000066660942",
      * "params": {"account_id": "123456", "count": "1", "money": "100"}}]
      * params: 操作所需的数据，account_id：账户id，count：充值次数，开户时都填1，money：开户初始金额
-     * @param string $notifyUrl
      * @return mixed
      * @author sleep
      */
-    public function eleSecurityOpenAccount(array $request, string $notifyUrl)
+    public function eleSecurityOpenAccount(array $request)
     {
         return $this
-            ->setNotifyUrl($notifyUrl)
+            ->setNotifyUrl($this->getNotifyUrl())
             ->requestAsync('/Api_v2/ele_security/open_acount', $request);
     }
 
@@ -128,14 +123,14 @@ class EleMeterClient extends Gateway
      * "must_online": true, "retry_times": 1, "cid": "19020618114", "address": "000066660942",
      * "params": {"account_id": "123456", "count": "2", "money": "100"}}]
      * params: 操作所需的数据，account_id：账户id，count：充值次数，每次充值成功后，值都需要增加1，money：充值金额
-     * @param string $notifyUrl
      * @return mixed
      * @author sleep
      */
-    public function eleSecurityRecharge(array $request, string $notifyUrl)
+    public function eleSecurityRecharge(array $request)
     {
+
         return $this
-            ->setNotifyUrl($notifyUrl)
+            ->setNotifyUrl($this->getNotifyUrl())
             ->requestAsync('/Api_v2/ele_security/recharge', $request);
     }
 }
