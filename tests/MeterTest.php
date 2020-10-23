@@ -16,80 +16,44 @@ use Topphp\TopphpTesting\HttpTestCase;
 
 class MeterTest extends HttpTestCase
 {
-    private $code   = '4318a22897441b6cca3add1c0ac338cc';
-    private $nonce  = 'ECl96pLa7ovmn7gXs0w';
-    private $notify = 'http://vtheatre.n.kaituocn.com/';
 
-    public function testCollectorAdd()
-    {
-        $gateway = new MeterClient();
-        $res     = $gateway->setAuthCode($this->code)
-            ->setNonce($this->nonce)
-            ->collectorAdd([
-                ['cid' => '200824015639']
-            ]);
-        var_dump(json_decode($res['response_content']));
-    }
 
-    public function testCollectorDel()
-    {
-        $gateway = new MeterClient();
-        $res     = $gateway->setAuthCode($this->code)
-            ->setNonce($this->nonce)
-            ->collectorDelete([
-                ['cid' => '200824015639']
-            ]);
-        var_dump(json_decode($res['response_content']));
-    }
-
-    public function testEleMeterAdd()
-    {
-        $gateway = new MeterClient();
-        $res     = $gateway->setAuthCode($this->code)
-            ->setNonce($this->nonce)
-            ->eleMeterAdd([
-                [
-                    'cid'     => '200824015639',
-                    'address' => '200824015639',
-                    'model'   => '10573'
-                ]
-            ]);
-        var_dump(json_decode($res['response_content']));
-    }
-
-    public function testEleMeterDel()
-    {
-        $gateway = new MeterClient();
-        $res     = $gateway->setAuthCode($this->code)
-            ->setNonce($this->nonce)
-            ->eleMeterDelete([
-                ['cid' => '200824015639', 'address' => '200824015639']
-            ]);
-        var_dump(json_decode($res['response_content']));
-    }
-
+    /**
+     * 查询采集器状态
+     * @author sleep
+     */
     public function testCollectorQuery()
     {
         $gateway = new MeterClient();
         $res     = $gateway->setAuthCode($this->code)
             ->setNonce($this->nonce)
             ->collectorQuery([
-                ['cid' => '200824015639']
+                ['cid' => $this->num]
             ]);
-        var_dump(json_decode($res['response_content']));
+        var_dump($res);
+        var_dump(json_decode($res['response_content'], true));
     }
 
+    /**
+     * 查询电表状态
+     * @author sleep
+     */
     public function testEleMeterQuery()
     {
         $gateway = new MeterClient();
         $res     = $gateway->setAuthCode($this->code)
             ->setNonce($this->nonce)
             ->eleMeterQuery([
-                ['cid' => '200824015639']
+                ['cid' => $this->num]
             ]);
-        var_dump(json_decode($res['response_content']));
+        var_dump($res);
+        var_dump(json_decode($res['response_content'], true));
     }
 
+    /**
+     * 抄表
+     * @author sleep
+     */
     public function testEleRead()
     {
         $gateway = new EleMeterClient();
@@ -102,160 +66,92 @@ class MeterTest extends HttpTestCase
                     'time_out'    => 60,
                     'must_online' => true,
                     'retry_times' => 1,
-                    'type'        => 22,
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                ]
+                    'type'        => 40,
+                    'cid'         => $this->num,
+                    'address'     => $this->num,
+                ],
             ]);
         var_dump($res);
+        var_dump(json_decode($res['response_content'], true));
+    }
+
+    // 添加采集器
+    public function testCollectorAdd()
+    {
+        $gateway = new MeterClient();
+        $res     = $gateway->setAuthCode($this->code)
+            ->setNonce($this->nonce)
+            ->collectorAdd([
+                ['cid' => $this->num]
+            ]);
+        var_dump(json_decode($res['response_content'], true));
+    }
+
+    //删除采集器
+    public function testCollectorDel()
+    {
+        $gateway = new MeterClient();
+        $res     = $gateway->setAuthCode($this->code)
+            ->setNonce($this->nonce)
+            ->collectorDelete([
+                ['cid' => $this->num]
+            ]);
+        var_dump(json_decode($res['response_content'], true));
+    }
+
+    //添加电表
+    public function testEleMeterAdd()
+    {
+        $gateway = new MeterClient();
+        $res     = $gateway->setAuthCode($this->code)
+            ->setNonce($this->nonce)
+            ->eleMeterAdd([
+                [
+                    'cid'     => $this->num,
+                    'address' => $this->num,
+                    'model'   => '10573'
+                ]
+            ]);
         var_dump(json_decode($res['response_content']));
     }
 
-    public function testEleWrite()
+    //删除电表
+    public function testEleMeterDel()
+    {
+        $gateway = new MeterClient();
+        $res     = $gateway->setAuthCode($this->code)
+            ->setNonce($this->nonce)
+            ->eleMeterDelete([
+                ['cid' => $this->num, 'address' => $this->num]
+            ]);
+        var_dump(json_decode($res['response_content']));
+    }
+
+    //开合闸
+    public function testCtrl()
     {
         $gateway = new EleMeterClient();
         $res     = $gateway->setAuthCode($this->code)
             ->setNonce($this->nonce)
             ->setNotifyUrl($this->notify)
-            ->eleWrite([
+            ->eleControl([
                 [
                     'opr_id'      => $gateway->generateOperateId(),
                     'time_out'    => 60,
                     'must_online' => true,
                     'retry_times' => 1,
-                    'type'        => 12,
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                    'params'      => [
-                        'p1' => '1',
-                        'p2' => '2',
-                        'p3' => '3',
-                        'p4' => '4',
-                    ]
-                ],
-                [
-                    'opr_id'      => $gateway->generateOperateId(),
-                    'time_out'    => 60,
-                    'must_online' => true,
-                    'retry_times' => 1,
-                    'type'        => 13,
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                    'params'      => [
-                        'p1' => '100',
-                        'p2' => '200',
-                        'p3' => '300',
-                        'p4' => '400',
-                    ]
-                ],
-                [
-                    'opr_id'      => $gateway->generateOperateId(),
-                    'time_out'    => 60,
-                    'must_online' => true,
-                    'retry_times' => 1,
-                    'type'        => 14,
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                    'params'      => [
-                        'p1' => '1000',
-                        'p2' => '2000',
-                        'p3' => '3000',
-                        'p4' => '4000',
-                    ]
-                ],
-                [
-                    'opr_id'      => $gateway->generateOperateId(),
-                    'time_out'    => 60,
-                    'must_online' => true,
-                    'retry_times' => 1,
-                    'type'        => 23,
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                    'params'      => [
-                        'p1' => '1',
-                    ]
-                ],
-                [
-                    'opr_id'      => $gateway->generateOperateId(),
-                    'time_out'    => 60,
-                    'must_online' => true,
-                    'retry_times' => 1,
-                    'type'        => 24,
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                    'params'      => [
-                        'p1' => '10',
-                    ]
-                ],
-                [
-                    'opr_id'      => $gateway->generateOperateId(),
-                    'time_out'    => 60,
-                    'must_online' => true,
-                    'retry_times' => 1,
-                    'type'        => 25,
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                    'params'      => [
-                        'p1' => '50',
-                    ]
+                    //10:拉闸
+                    //11:合闸
+                    'type'        => 11,
+                    'cid'         => $this->num,
+                    'address'     => $this->num,
                 ],
             ]);
         var_dump($res);
         var_dump(json_decode($res['response_content'], true));
     }
 
-    public function testEleSecurityOpenAccount()
-    {
-        $gateway = new EleMeterClient();
-        $res     = $gateway->setAuthCode($this->code)
-            ->setNonce($this->nonce)
-            ->setNotifyUrl($this->notify)
-            ->eleSecurityOpenAccount([
-                [
-                    'opr_id'      => $gateway->generateOperateId(),
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                    'params'      => [
-                        'account_id' => '0',
-                        'count'      => 1,
-                        'money'      => '100',
-                        'price'      => '100'
-                    ],
-                    'must_online' => true,
-                    'time_out'    => 60,
-                    'retry_times' => 1,
-                ]
-            ]);
-        var_dump($res);
-        var_dump(json_decode($res['response_content'], true));
-    }
-
-    public function testRecharge()
-    {
-        $gateway = new EleMeterClient();
-        $res     = $gateway->setAuthCode($this->code)
-            ->setNonce($this->nonce)
-            ->setNotifyUrl($this->notify)
-            ->eleSecurityRecharge([
-                [
-                    'opr_id'      => $gateway->generateOperateId(),
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
-                    'params'      => [
-                        'account_id' => '0',
-                        'count'      => '2',
-                        'money'      => '100',
-                        'price'      => '100'
-                    ],
-                    'must_online' => true,
-                    'time_out'    => 60,
-                    'retry_times' => 1,
-                ]
-            ]);
-        var_dump($res);
-        var_dump(json_decode($res['response_content'], true));
-    }
-
+    //清零
     public function testEleSecurityReset()
     {
         $gateway = new EleMeterClient();
@@ -268,8 +164,11 @@ class MeterTest extends HttpTestCase
                     'time_out'    => 60,
                     'must_online' => true,
                     'retry_times' => 1,
-                    'cid'         => '200824015639',
-                    'address'     => '200824015639',
+                    'cid'         => $this->num,
+                    'address'     => $this->num,
+                    'params'      => [
+                        'account_id' => "0"
+                    ]
                 ]
             ]);
         var_dump($res);
@@ -300,12 +199,9 @@ class MeterTest extends HttpTestCase
 
     public function testCheckSubscribe()
     {
-        $_REQUEST['sign']    = '4297f44b13955235245b2497399d7a93';
-        $_REQUEST['content'] = '123';
-
         $n = new Notify();
-        $n->setSubscribeToken('bn9twoNwg9k9ENc1lcxL')
-            ->subscribe($_REQUEST, function ($ret, $err) {
+        $n->setSubscribeToken($this->token)
+            ->subscribe(function ($ret, $err) {
                 var_dump($ret);
                 var_dump($err);
             });
