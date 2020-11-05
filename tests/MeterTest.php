@@ -16,7 +16,11 @@ use Topphp\TopphpTesting\HttpTestCase;
 
 class MeterTest extends HttpTestCase
 {
-
+    private $code   = '4318a22897441b6cca3add1c0ac338cc';
+    private $nonce  = 'ECl96pLa7ovmn7gXs0w';
+    private $token  = 'bn9twoNwg9k9ENc1lcxL';
+    private $notify = 'http://vtheatre.n.kaituocn.com/';
+    private $num    = '200824015639';
 
     /**
      * 查询采集器状态
@@ -57,20 +61,22 @@ class MeterTest extends HttpTestCase
     public function testEleRead()
     {
         $gateway = new EleMeterClient();
+        $id      = $gateway->generateOperateId();
         $res     = $gateway->setAuthCode($this->code)
             ->setNonce($this->nonce)
             ->setNotifyUrl($this->notify)
             ->eleRead([
                 [
-                    'opr_id'      => $gateway->generateOperateId(),
+                    'opr_id'      => $id,
                     'time_out'    => 60,
                     'must_online' => true,
                     'retry_times' => 1,
-                    'type'        => 40,
+                    'type'        => 3,
                     'cid'         => $this->num,
                     'address'     => $this->num,
                 ],
             ]);
+        var_dump($id);
         var_dump($res);
         var_dump(json_decode($res['response_content'], true));
     }
