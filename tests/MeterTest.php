@@ -18,7 +18,7 @@ class MeterTest extends HttpTestCase
 {
     private $code   = '4318a22897441b6cca3add1c0ac338cc';
     private $nonce  = 'ECl96pLa7ovmn7gXs0w';
-    private $notify = 'http://vtheatre.n.kaituocn.com/';
+    private $notify = 'http://meter.n.kaituocn.com/admin/index';
 
     public function testCollectorAdd()
     {
@@ -102,7 +102,7 @@ class MeterTest extends HttpTestCase
                     'time_out'    => 60,
                     'must_online' => true,
                     'retry_times' => 1,
-                    'type'        => 22,
+                    'type'        => 3,
                     'cid'         => '200824015639',
                     'address'     => '200824015639',
                 ]

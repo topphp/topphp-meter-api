@@ -51,7 +51,7 @@ class Notify extends Gateway
             $callBack(false);
         } else {
 //            echo 'SUCCESS';
-            $callBack($responseContent);
+            $callBack($responseContent, $timestamp, $sign);
         }
     }
 
