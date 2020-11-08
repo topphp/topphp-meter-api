@@ -57,13 +57,12 @@ class Notify extends Gateway
 
     /**
      * 订阅消息
-     * @param $response
      * @param Closure $callBack
      * @author sleep
      */
-    public function subscribe($response, Closure $callBack)
+    public function subscribe(Closure $callBack)
     {
-        $sign    = @getallheaders()["sign"];
+        $sign    = @getallheaders()["Sign"];
         $content = @file_get_contents('php://input');
         if ($content == '') {
             $callBack('返回数据为空', false);

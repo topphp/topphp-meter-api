@@ -4,22 +4,15 @@ declare(strict_types=1);
 
 namespace Topphp\Test;
 
+use Topphp\TopphpMeterApi\TqMeter\AsyncApi\EleMeterClient;
 use Topphp\TopphpMeterApi\TqMeter\SyncApi\MeterClient;
 use Topphp\TopphpTesting\HttpTestCase;
 
 class ExampleTest extends HttpTestCase
 {
-    private $code  = '4318a22897441b6cca3add1c0ac338cc';
-    private $nonce = 'ECl96pLa7ovmn7gXs0w';
-
-    public function testSyncApi()
-    {
-        $gateway = new MeterClient();
-        $res     = $gateway->setAuthCode('37577f8fb62a7b14ba55cc6faec5a142')
-            ->setNonce('XOfX547SeCIlhufeeBBwgZIN')
-            ->collectorQuery([]);
-        var_dump($res);
-    }
+    private $code   = '4318a22897441b6cca3add1c0ac338cc';
+    private $nonce  = 'ECl96pLa7ovmn7gXs0w';
+    private $notify = 'http://vtheatre.n.kaituocn.com/';
 
     public function testV1Api()
     {
@@ -54,7 +47,7 @@ class ExampleTest extends HttpTestCase
         var_dump($res);
     }
 
-    public function testEleMeterQuery()
+    public function testUser()
     {
         $gate = new MeterClient();
         $res  = $gate->setAuthCode($this->code)
@@ -69,4 +62,150 @@ class ExampleTest extends HttpTestCase
             ->param();
         var_dump($res);
     }
+
+    public function testEleWrite()
+    {
+        $gateway = new EleMeterClient();
+        $res     = $gateway->setAuthCode($this->code)
+            ->setNonce($this->nonce)
+            ->setNotifyUrl($this->notify)
+            ->eleWrite([
+                [
+                    'opr_id'      => $gateway->generateOperateId(),
+                    'time_out'    => 60,
+                    'must_online' => true,
+                    'retry_times' => 1,
+                    'type'        => 12,
+                    'cid'         => '200824015639',
+                    'address'     => '200824015639',
+                    'params'      => [
+                        'p1' => '1',
+                        'p2' => '2',
+                        'p3' => '3',
+                        'p4' => '4',
+                    ]
+                ],
+                [
+                    'opr_id'      => $gateway->generateOperateId(),
+                    'time_out'    => 60,
+                    'must_online' => true,
+                    'retry_times' => 1,
+                    'type'        => 13,
+                    'cid'         => '200824015639',
+                    'address'     => '200824015639',
+                    'params'      => [
+                        'p1' => '100',
+                        'p2' => '200',
+                        'p3' => '300',
+                        'p4' => '400',
+                    ]
+                ],
+                [
+                    'opr_id'      => $gateway->generateOperateId(),
+                    'time_out'    => 60,
+                    'must_online' => true,
+                    'retry_times' => 1,
+                    'type'        => 14,
+                    'cid'         => '200824015639',
+                    'address'     => '200824015639',
+                    'params'      => [
+                        'p1' => '1000',
+                        'p2' => '2000',
+                        'p3' => '3000',
+                        'p4' => '4000',
+                    ]
+                ],
+                [
+                    'opr_id'      => $gateway->generateOperateId(),
+                    'time_out'    => 60,
+                    'must_online' => true,
+                    'retry_times' => 1,
+                    'type'        => 23,
+                    'cid'         => '200824015639',
+                    'address'     => '200824015639',
+                    'params'      => [
+                        'p1' => '1',
+                    ]
+                ],
+                [
+                    'opr_id'      => $gateway->generateOperateId(),
+                    'time_out'    => 60,
+                    'must_online' => true,
+                    'retry_times' => 1,
+                    'type'        => 24,
+                    'cid'         => '200824015639',
+                    'address'     => '200824015639',
+                    'params'      => [
+                        'p1' => '10',
+                    ]
+                ],
+                [
+                    'opr_id'      => $gateway->generateOperateId(),
+                    'time_out'    => 60,
+                    'must_online' => true,
+                    'retry_times' => 1,
+                    'type'        => 25,
+                    'cid'         => '200824015639',
+                    'address'     => '200824015639',
+                    'params'      => [
+                        'p1' => '50',
+                    ]
+                ],
+            ]);
+        var_dump($res);
+        var_dump(json_decode($res['response_content'], true));
+    }
+
+    public function testEleSecurityOpenAccount()
+    {
+        $gateway = new EleMeterClient();
+        $res     = $gateway->setAuthCode($this->code)
+            ->setNonce($this->nonce)
+            ->setNotifyUrl($this->notify)
+            ->eleSecurityOpenAccount([
+                [
+                    'opr_id'      => $gateway->generateOperateId(),
+                    'cid'         => '200824015639',
+                    'address'     => '200824015639',
+                    'params'      => [
+                        'account_id' => '0',
+                        'count'      => 1,
+                        'money'      => '1000',
+                        'price'      => '1000'
+                    ],
+                    'must_online' => true,
+                    'time_out'    => 60,
+                    'retry_times' => 1,
+                ]
+            ]);
+        var_dump($res);
+        var_dump(json_decode($res['response_content'], true));
+    }
+
+    public function testRecharge()
+    {
+        $gateway = new EleMeterClient();
+        $res     = $gateway->setAuthCode($this->code)
+            ->setNonce($this->nonce)
+            ->setNotifyUrl($this->notify)
+            ->eleSecurityRecharge([
+                [
+                    'opr_id'      => $gateway->generateOperateId(),
+                    'cid'         => '200824015639',
+                    'address'     => '200824015639',
+                    'params'      => [
+                        'account_id' => '0',
+                        'count'      => '2',
+                        'money'      => '100',
+                        'price'      => '100'
+                    ],
+                    'must_online' => true,
+                    'time_out'    => 60,
+                    'retry_times' => 1,
+                ]
+            ]);
+        var_dump($res);
+        var_dump(json_decode($res['response_content'], true));
+    }
+
 }
