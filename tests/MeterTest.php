@@ -19,7 +19,7 @@ class MeterTest extends HttpTestCase
     private $code   = '4318a22897441b6cca3add1c0ac338cc';
     private $nonce  = 'ECl96pLa7ovmn7gXs0w';
     private $token  = 'bn9twoNwg9k9ENc1lcxL';
-    private $notify = 'http://vtheatre.n.kaituocn.com/';
+    private $notify = 'http://meter.n.kaituocn.com/admin';
     private $num    = '200824015639';
 
     /**

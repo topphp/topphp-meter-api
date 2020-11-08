@@ -51,7 +51,7 @@ class Notify extends Gateway
             $callBack(false);
         } else {
 //            echo 'SUCCESS';
-            $callBack($responseContent, $timestamp, $sign);
+            $callBack(json_decode($responseContent, true), $timestamp, $sign);
         }
     }
 
@@ -65,15 +65,15 @@ class Notify extends Gateway
         $sign    = @getallheaders()["Sign"];
         $content = @file_get_contents('php://input');
         if ($content == '') {
-            $callBack('返回数据为空', false);
+            $callBack(false, '返回数据为空');
             echo 'SUCCESS';
         } else {
             if (!$this->checkSubscribeSign($content, $sign)) {
 //                echo "sign check failed";
-                $callBack('签名错误', false);
+                $callBack(false, '签名错误');
             } else {
 //                echo 'SUCCESS';
-                $callBack($content, true);
+                $callBack(true, json_decode($content, true));
             }
         }
     }
