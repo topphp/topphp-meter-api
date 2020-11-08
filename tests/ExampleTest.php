@@ -196,8 +196,8 @@ class ExampleTest extends HttpTestCase
                     'params'      => [
                         'account_id' => '0',
                         'count'      => '2',
-                        'money'      => '100',
-                        'price'      => '100'
+                        'money'      => '100000',
+                        'price'      => '100000'
                     ],
                     'must_online' => true,
                     'time_out'    => 60,
