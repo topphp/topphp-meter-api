@@ -19,6 +19,24 @@ abstract class Gateway
     // 随机字符串 后台获取
     private $api1 = 'http://api1.tqdianbiao.com';
     private $api2 = 'http://api2.tqdianbiao.com';
+    // 接口地址路径
+    private $apiUrl;
+
+    /**
+     * @return string
+     */
+    public function getApiUrl(): string
+    {
+        return $this->apiUrl;
+    }
+
+    /**
+     * @param string $apiUrl
+     */
+    public function setApiUrl(string $apiUrl): void
+    {
+        $this->apiUrl = $apiUrl;
+    }
 
     /**
      * @return string
@@ -176,7 +194,7 @@ abstract class Gateway
         ];
         $sign         = $this->getSign($data);
         $data['sign'] = $sign;
-        $url          = $this->getApi2() . $url;
-        return HttpHelper::post($url, $data, 'json', ['Content-Type' => 'application/json']);
+        $this->setApiUrl($this->getApi2() . $url);
+        return HttpHelper::post($this->getApiUrl(), $data, 'json', ['Content-Type' => 'application/json']);
     }
 }
