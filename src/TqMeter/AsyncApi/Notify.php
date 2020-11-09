@@ -48,7 +48,7 @@ class Notify extends Gateway
         $check           = $this->checkSign($responseContent, $timestamp, $sign);
         if (!$check) {
 //            echo "sign check failed";
-            $callBack(false);
+            $callBack(false, $timestamp, $sign);
         } else {
 //            echo 'SUCCESS';
             $callBack(json_decode($responseContent, true), $timestamp, $sign);
